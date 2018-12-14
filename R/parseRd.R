@@ -50,6 +50,18 @@ parseRd <- function(rd) {
 			  results[[key]] <- trim(paste(sapply(rd[[which(tags==i)[1]]], FUN=function(x) {
 			    parseTag(x, stripNewline=FALSE)
 			  } ), collapse=""))
+			} else if (i == "\\section"){
+			  for(s in which(tags == i)) { #go through all the sections (there can be several) 
+			    key <- rd[[s]][[1]][[1]][1] #key for each section is its header
+			    results[[key]] <- trim(paste(sapply(rd[[s]][[-1]], FUN=function(x) {
+			      parseTag(x, stripNewline=FALSE)
+			    } ), collapse=" "))
+			  }
+			} else if (i == "\\alias") { #there can be several aliases
+			  key <- substr(i, 2, nchar(i))
+			  results[[key]] <- paste(sapply(which(tags == i), function(s) {
+          paste0("`", rd[[s]][[1]][1], "`")
+			  }), collapse = ", ")
 			} else if (i %in% tags) {
 				key <- substr(i, 2, nchar(i))
 				results[[key]] <- trim(paste(sapply(rd[[which(tags==i)[1]]], FUN=function(x) {

@@ -15,7 +15,7 @@ sections <- c("\\arguments", "\\author", "\\concept", "\\description",
 			  "\\value", "\\examples", "\\usage", "\\alias", "\\Rdversion", "\\synopsis",
 			  "\\Sexpr", "\\RdOpts" )
 
-sections.print <- c("name", "title", "description", "format", "usage", "arguments", 
+sections.print <- c("name", "title", "alias", "description", "format", "usage", "arguments", 
 					"details", "value", "seealso", "note", "author", 
 					"references", "examples")
 

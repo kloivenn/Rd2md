@@ -59,6 +59,14 @@ Rd2markdown <- function(rdfile, outfile, append=FALSE) {
 		# title as normal text
 		cat(paste0(results$title, section.sep), file=outfile, append=TRUE, sep="\n")
 		
+		#check for any additional sections 
+		#they will be placed after the "details" section
+		addSections <- names(results)[!(names(results) %in% c(sections.print, "filename", "directory"))]
+		detInd <- which(sections.print == "details")
+		sections.print <- c(sections.print[1:detInd], addSections, 
+		                    sections.print[(detInd + 1):length(sections.print)])
+		
+		
 		for (i in sections.print[!sections.print %in% c("name","title")]) {
 			if (i %in% names(results)) {
 			  cat(paste(subsection, simpleCap(i)), section.sep, file=outfile, append=TRUE, sep="")
