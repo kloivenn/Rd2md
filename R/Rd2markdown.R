@@ -55,9 +55,9 @@ Rd2markdown <- function(rdfile, outfile, append=FALSE) {
 		cat("", file=outfile, append=append)
 		
 		# HEADING
-		cat(paste0(section, " `", results$name, "`"), section.sep, file=outfile, append=TRUE, sep="")
+		cat(paste0(section, " ", results$title), section.sep, file=outfile, append=TRUE, sep="")
 		# title as normal text
-		cat(paste0(results$title, section.sep), file=outfile, append=TRUE, sep="\n")
+		#cat(paste0(results$title, section.sep), file=outfile, append=TRUE, sep="\n")
 		
 		#check for any additional sections 
 		#they will be placed after the "details" section
@@ -69,7 +69,8 @@ Rd2markdown <- function(rdfile, outfile, append=FALSE) {
 		
 		for (i in sections.print[!sections.print %in% c("name","title")]) {
 			if (i %in% names(results)) {
-			  cat(paste(subsection, simpleCap(i)), section.sep, file=outfile, append=TRUE, sep="")
+			  if(i != "alias")
+			    cat(paste(subsection, simpleCap(i)), section.sep, file=outfile, append=TRUE, sep="")
 				if (i %in% c("examples", "usage")) {
 				  cat("```r", paste(results[[i]], collapse="\n"), "```", file=outfile, append=TRUE, sep="\n")
 				} else if (i == "arguments") {
