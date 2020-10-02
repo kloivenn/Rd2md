@@ -54,9 +54,15 @@ parseTag <- function(x
 	} else if (rdtag == "\\href") {
 		x <- paste0("[", as.character(x[[2]]), "](", as.character(x[[1]]), ")")
 	} else if (rdtag == "\\item") {
-		x <- "\n\n* "
-	} else if (rdtag == "\\itemize") {
-		x <- paste(sapply(x, parseTag), collapse=" ")
+		if(length(x) == 0) {
+		  x <- "\n\n* "
+		} else if(length(x) == 2) {
+		  # this happens in describe tag
+		  x <- paste0(trim(paste(sapply(x[[1]], parseTag), collapse = " ")), "\n\n- ",
+		              trim(paste(sapply(x[[2]], parseTag), collapse = " ")), "\n\n") 
+		}
+	} else if (rdtag == "\\itemize" | rdtag == "\\describe") {
+		x <- paste(sapply(x, parseTag), collapse="")
 	} else if (rdtag == "\\enumerate") {
 		warning("enumerate not currently supported. Items will be bulleted instead.")
 		x <- paste(sapply(x, parseTag), collapse=" ")

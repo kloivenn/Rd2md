@@ -48,7 +48,11 @@ parseRd <- function(rd) {
 			} else if (i %in% c("\\examples", "\\example")) {
 			  key <- substr(i, 2, nchar(i))
 			  results[[key]] <- trim(paste(sapply(rd[[which(tags==i)[1]]], FUN=function(x) {
-			    parseTag(x, stripNewline=FALSE)
+			    if(is.list(x)) {
+			      paste(sapply(x, function(xx) parseTag(xx, stripNewline = FALSE, stripWhite = FALSE)), collapse = "")
+			    } else {
+			      parseTag(x, stripNewline=FALSE)
+			    }
 			  } ), collapse=""))
 			} else if (i == "\\section"){
 			  for(s in which(tags == i)) { #go through all the sections (there can be several) 
